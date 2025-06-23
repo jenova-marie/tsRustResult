@@ -1,0 +1,60 @@
+{
+  "name": "ts-rust-result",
+  "version": "1.0.0",
+  "description": "A lightweight, zero-dependency TypeScript library that brings Rust's Result type to your JavaScript/TypeScript projects",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "lint": "eslint src --ext .ts",
+    "clean": "rm -rf dist",
+    "docs": "typedoc --options typedoc.json"
+  },
+  "keywords": [
+    "typescript",
+    "rust",
+    "result",
+    "error-handling",
+    "functional-programming",
+    "monad",
+    "either"
+  ],
+  "author": "Pippa",
+  "license": "MIT",
+  "packageManager": "pnpm@10.11.0",
+  "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "@types/node": "^20.0.0",
+    "@typescript-eslint/parser": "^8.35.0",
+    "jest": "^30.0.0",
+    "jsdoc": "^4.0.4",
+    "ts-jest": "^29.4.0",
+    "typedoc": "^0.28.5",
+    "typescript": "^5.8.3"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/ts-rust-result.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/ts-rust-result/issues"
+  },
+  "homepage": "https://github.com/yourusername/ts-rust-result#readme"
+}
