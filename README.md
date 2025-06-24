@@ -254,15 +254,6 @@ A: Initially yes, but it prevents bugs and makes your code more maintainable in 
 **Q: Can I mix Results with traditional error handling?** 🔄
 A: Yes! Use `tryResult` to wrap existing async functions and gradually migrate your codebase.
 
-## Changelog 📋
-
-### [1.0.0] - 2024-01-XX ✨
-- Initial release
-- Core Result types and functions 💎
-- Async support with `tryResult` 🌊
-- Assertion helpers 🧪
-- Full TypeScript support 🔵
-
 ## License 📄
 
 GPL-3.0 License - see the [LICENSE](LICENSE) file for details.
