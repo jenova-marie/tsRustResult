@@ -1,8 +1,8 @@
-# RustResult ✨🦀
+# tsRustResult ✨🦀
 
 A lightweight, zero-dependency TypeScript library that brings Rust's `Result` type to your JavaScript/TypeScript projects. Handle errors gracefully with type safety and functional programming patterns.
 
-## Why RustResult Exists
+## Why tsRustResult Exists
 
 Error handling in JavaScript and TypeScript is fundamentally broken. Here's what we're dealing with:
 
@@ -18,7 +18,7 @@ Error handling in JavaScript and TypeScript is fundamentally broken. Here's what
 
 5. **Unpredictable Control Flow**: Exceptions can be thrown from anywhere, making it hard to reason about your code's execution path.
 
-### What RustResult Accomplishes
+### What tsRustResult Accomplishes
 
 RustResult provides a **consistent, type-safe, and ergonomic** way to handle errors by treating them as values rather than exceptions. This approach:
 
