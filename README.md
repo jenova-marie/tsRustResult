@@ -18,7 +18,7 @@ Error handling in JavaScript and TypeScript is fundamentally broken. Here's what
 
 5. **Unpredictable Control Flow**: Exceptions can be thrown from anywhere, making it hard to reason about your code's execution path.
 
-### What tsRustResult Accomplishes
+### What RustResult Accomplishes
 
 RustResult provides a **consistent, type-safe, and ergonomic** way to handle errors by treating them as values rather than exceptions. This approach:
 
