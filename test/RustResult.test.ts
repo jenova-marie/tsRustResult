@@ -183,7 +183,7 @@ describe('RustResult Async Functions', () => {
         });
 
         it('returns value directly when shouldThrow is true and successful', async () => {
-            const result = await tryResult(async () => 'success', true);
+            const result = await tryResult(async () => ok('success'), true);
             expect(result.ok).toBe(true);
             if (result.ok) {
                 expect(result.value).toBe('success');
