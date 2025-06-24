@@ -1,6 +1,6 @@
 {
   "name": "ts-rust-result",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "author": "Jenova Marie",
   "license": "GPL-3.0",
   "packageManager": "pnpm@10.11.0",
@@ -30,6 +30,7 @@
   },
   "scripts": {
     "build": "tsc",
+    "make": "pnpm clean && pnpm build && pnpm prepack && npm publish",
     "dev": "tsc --watch",
     "test": "jest",
     "test:watch": "jest --watch",

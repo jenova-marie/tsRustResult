@@ -285,8 +285,8 @@ export async function tryResult<T>(
     shouldThrow: boolean = false
 ): Promise<Result<T>> {
     try {
-        const value = await fn();
-        return ok(value);
+        const value: any = await fn();
+        return unwrap(value);
     } catch (e) {
         const error = e instanceof Error ? e : new Error(String(e));
         if (shouldThrow) {
