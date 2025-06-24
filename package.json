@@ -1,9 +1,26 @@
 {
   "name": "ts-rust-result",
-  "version": "1.0.2",
+  "version": "1.0.3",
+  "author": "Jenova Marie",
+  "license": "GPL-3.0",
+  "packageManager": "pnpm@10.11.0",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jenova-marie/ts-rust-result.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jenova-marie/ts-rust-result/issues"
+  },
+  "homepage": "https://github.com/jenova-marie/ts-rust-result#readme",
   "description": "A lightweight, zero-dependency TypeScript library that brings Rust's Result type to your JavaScript/TypeScript projects",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -11,9 +28,6 @@
       "require": "./dist/index.js"
     }
   },
-  "files": [
-    "dist"
-  ],
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
@@ -27,25 +41,6 @@
     "prepack": "pnpm run clean && pnpm run build",
     "postpack": "pnpm run clean"
   },
-  "keywords": [
-    "typescript",
-    "rust",
-    "result",
-    "error-handling",
-    "functional-programming",
-    "monad",
-    "either",
-    "option",
-    "maybe",
-    "railway-oriented-programming",
-    "error-management",
-    "type-safe",
-    "zero-dependencies",
-    "lightweight"
-  ],
-  "author": "Pippa",
-  "license": "GPL-3.0",
-  "packageManager": "pnpm@10.11.0",
   "devDependencies": {
     "@types/jest": "^30.0.0",
     "@types/node": "^20.0.0",
@@ -56,15 +51,25 @@
     "typedoc": "^0.28.5",
     "typescript": "^5.8.3"
   },
-  "engines": {
-    "node": ">=16.0.0"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/yourusername/ts-rust-result.git"
-  },
-  "bugs": {
-    "url": "https://github.com/yourusername/ts-rust-result/issues"
-  },
-  "homepage": "https://github.com/yourusername/ts-rust-result#readme"
+  "keywords": [
+    "typescript",
+    "rust",
+    "result",
+    "assert",
+    "error",
+    "error-handling",
+    "pattern",
+    "design-pattern",
+    "functional-programming",
+    "monad",
+    "either",
+    "option",
+    "maybe",
+    "railway-oriented-programming",
+    "error-management",
+    "type-safe",
+    "zero-dependencies",
+    "lightweight",
+    "elegant"
+  ]
 }
