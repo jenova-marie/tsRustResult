@@ -127,11 +127,20 @@ export function err(error: Error): Result<never> {
  *   console.error(error.message); // "Something went wrong"
  * }
  * 
- * // Common pattern with tryResult
- * const data = unwrap(await tryResult(async () => {
- *   const response = await fetch('/api/data');
- *   return response.json();
- * }));
+ * // ✅ Correct: Unwrap results from your own functions
+ * async function fetchUser(id: string): Promise<Result<User>> {
+ *   try {
+ *     const response = await fetch(`/api/users/${id}`);
+ *     if (!response.ok) {
+ *       return err(new Error(`HTTP ${response.status}: ${response.statusText}`));
+ *     }
+ *     return ok(await response.json());
+ *   } catch (error) {
+ *     return err(error);
+ *   }
+ * }
+ * 
+ * const user = unwrap(await fetchUser("123")); // Direct access to User
  * ```
  */
 export function unwrap<T>(result: Result<T>): T {
@@ -157,9 +166,21 @@ export function unwrap<T>(result: Result<T>): T {
  * const errorResult = err(new Error("Failed"));
  * const mapped = map(errorResult, x => x * 2); // err(Error("Failed"))
  * 
- * // Transform API response
- * const userResult = ok({ id: 1, name: "John" });
- * const nameResult = map(userResult, user => user.name); // ok("John")
+ * // ✅ Correct: Transform results from your own functions
+ * async function fetchUser(id: string): Promise<Result<User>> {
+ *   try {
+ *     const response = await fetch(`/api/users/${id}`);
+ *     if (!response.ok) {
+ *       return err(new Error(`HTTP ${response.status}: ${response.statusText}`));
+ *     }
+ *     return ok(await response.json());
+ *   } catch (error) {
+ *     return err(error);
+ *   }
+ * }
+ * 
+ * const userResult = await fetchUser("123");
+ * const nameResult = map(userResult, user => user.name); // ok("John") or err(...)
  * ```
  */
 export function map<T, U>(result: Result<T>, fn: (value: T) => U): Result<U> {
@@ -185,10 +206,22 @@ export function map<T, U>(result: Result<T>, fn: (value: T) => U): Result<U> {
  * const successResult = ok("data");
  * const mapped = mapErr(successResult, err => new Error("Won't happen")); // ok("data")
  * 
- * // Add context to errors
- * const result = err(new Error("Invalid input"));
- * const contextualError = mapErr(result, err => 
- *   new Error(`Validation failed: ${err.message}`)
+ * // ✅ Correct: Add context to errors from your own functions
+ * async function fetchUser(id: string): Promise<Result<User>> {
+ *   try {
+ *     const response = await fetch(`/api/users/${id}`);
+ *     if (!response.ok) {
+ *       return err(new Error(`HTTP ${response.status}: ${response.statusText}`));
+ *     }
+ *     return ok(await response.json());
+ *   } catch (error) {
+ *     return err(error);
+ *   }
+ * }
+ * 
+ * const userResult = await fetchUser("123");
+ * const contextualError = mapErr(userResult, err => 
+ *   new Error(`Failed to fetch user 123: ${err.message}`)
  * );
  * ```
  */
@@ -207,7 +240,7 @@ export function mapErr<T>(result: Result<T>, fn: (err: Error) => Error): Result<
  * 
  * @example
  * ```ts
- * // Return Result (default behavior)
+ * // Return Result (default behavior) - for wrapping third-party calls
  * const result = await tryResult(async () => {
  *   const response = await fetch('/api/data');
  *   return response.json();
@@ -229,6 +262,22 @@ export function mapErr<T>(result: Result<T>, fn: (err: Error) => Error): Result<
  * } catch (error) {
  *   console.error(error); // Handle thrown error
  * }
+ * 
+ * // ✅ Correct: Your own functions should return Result directly
+ * async function fetchUser(id: string): Promise<Result<User>> {
+ *   try {
+ *     const response = await fetch(`/api/users/${id}`);
+ *     if (!response.ok) {
+ *       return err(new Error(`HTTP ${response.status}: ${response.statusText}`));
+ *     }
+ *     return ok(await response.json());
+ *   } catch (error) {
+ *     return err(error);
+ *   }
+ * }
+ * 
+ * // ✅ Correct: Use tryResult to wrap third-party calls
+ * const userResult = await tryResult(() => fetchUser("123"));
  * ```
  */
 export async function tryResult<T>(
