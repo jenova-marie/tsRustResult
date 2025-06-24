@@ -1,2 +1,8 @@
 // Export all functions and types from RustResult
-export * from './TsRustResult'; 
+// const tsRustResult = require('./TsRustResult');
+// module.exports = tsRustResult;
+
+module.exports = {
+    ...require('./TsRustResult'),
+  };
+  
