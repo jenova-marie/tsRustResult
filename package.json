@@ -22,7 +22,10 @@
     "test:coverage": "jest --coverage",
     "lint": "eslint src --ext .ts",
     "clean": "rm -rf dist",
-    "docs": "typedoc --options typedoc.json"
+    "docs": "typedoc --options typedoc.json",
+    "prepublishOnly": "pnpm run clean && pnpm run build && pnpm run test",
+    "prepack": "pnpm run clean && pnpm run build",
+    "postpack": "pnpm run clean"
   },
   "keywords": [
     "typescript",
@@ -31,10 +34,17 @@
     "error-handling",
     "functional-programming",
     "monad",
-    "either"
+    "either",
+    "option",
+    "maybe",
+    "railway-oriented-programming",
+    "error-management",
+    "type-safe",
+    "zero-dependencies",
+    "lightweight"
   ],
   "author": "Pippa",
-  "license": "MIT",
+  "license": "GPL-3.0",
   "packageManager": "pnpm@10.11.0",
   "devDependencies": {
     "@types/jest": "^30.0.0",
