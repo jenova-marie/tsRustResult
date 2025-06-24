@@ -59,8 +59,8 @@ export function ok<T>(value: T): Result<T> {
  * }
  * ```
  */
-export function isOk<T>(r: Result<T>): r is Ok<T> {
-    return r.ok;
+export function isOk<T>(result: Result<T>): result is Ok<T> {
+    return result.ok;
 }
 
 /**
@@ -85,8 +85,8 @@ export function isOk<T>(r: Result<T>): r is Ok<T> {
  * }
  * ```
  */
-export function isErr<T>(r: Result<T>): r is Err {
-    return !r.ok;
+export function isErr<T>(result: Result<T>): result is Err {
+    return !result.ok;
 }
 
 /**
