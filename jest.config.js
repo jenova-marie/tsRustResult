@@ -1,4 +1,4 @@
-module.exports = {
+export default {
     preset: 'ts-jest',
     testEnvironment: 'node',
     roots: ['<rootDir>/test'],
@@ -11,5 +11,11 @@ module.exports = {
     coverageReporters: ['text', 'lcov', 'html'],
     moduleNameMapper: {
         '^@/(.*)$': '<rootDir>/src/$1',
+    },
+    extensionsToTreatAsEsm: ['.ts'],
+    transform: {
+        '^.+\\.ts$': ['ts-jest', {
+            useESM: true,
+        }],
     },
 }; 
