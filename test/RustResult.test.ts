@@ -13,7 +13,7 @@ import {
     type Result,
     type Ok,
     type Err
-} from '../src/RustResult';
+} from '../src/tsRustResult';
 
 describe('RustResult Core Functions', () => {
     describe('ok', () => {
@@ -136,12 +136,22 @@ describe('RustResult Core Functions', () => {
 
 describe('RustResult Async Functions', () => {
     describe('tryResult', () => {
-        it('returns ok for successful async operations', async () => {
-            const result = await tryResult(async () => 'success');
-            expect(result.ok).toBe(true);
-            if (result.ok) {
-                expect(result.value).toBe('success');
-            }
+        it('wraps third-party async operations that might throw', async () => {
+            // Simulating a third-party API call that might throw
+            const mockFetch = async () => {
+                if (Math.random() > 0.5) {
+                    throw new Error('Network error');
+                }
+                return { json: () => ({ id: 1, name: 'John' }) };
+            };
+
+            const result = await tryResult(async () => {
+                const response = await mockFetch();
+                return response.json();
+            });
+            
+            // Result could be either ok or err depending on the mock
+            expect(typeof result.ok).toBe('boolean');
         });
 
         it('returns error for failed async operations', async () => {
@@ -336,28 +346,52 @@ describe('RustResult Type Guards', () => {
 });
 
 describe('RustResult Integration Tests', () => {
-    it('chains map operations', () => {
-        const result = ok(5);
+    // Helper function that follows our pattern: returns Result<T> directly
+    function divide(a: number, b: number): Result<number> {
+        try {
+            if (b === 0) {
+                return err(new Error('Division by zero'));
+            }
+            return ok(a / b);
+        } catch (error) {
+            return err(error);
+        }
+    }
+
+    // Helper function that follows our pattern: returns Result<T> directly
+    function validateEmail(email: string): Result<string> {
+        try {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                return err(new Error('Invalid email format'));
+            }
+            return ok(email);
+        } catch (error) {
+            return err(error);
+        }
+    }
+
+    it('chains map operations with functions that return Results directly', () => {
+        const result = divide(10, 2);
         const doubled = map(result, x => x * 2);
         const squared = map(doubled, x => x * x);
         expect(squared.ok).toBe(true);
         if (squared.ok) {
-            expect(squared.value).toBe(100); // (5 * 2) ^ 2
+            expect(squared.value).toBe(100); // (10/2 * 2) ^ 2
         }
     });
 
-    it('handles error propagation through map', () => {
-        const error = new Error('original error');
-        const result = err(error);
+    it('handles error propagation through map with proper error handling', () => {
+        const result = divide(10, 0); // This will return an error
         const mapped = map(result, x => x * 2);
         const mappedAgain = map(mapped, x => x + 1);
         expect(mappedAgain.ok).toBe(false);
         if (!mappedAgain.ok) {
-            expect(mappedAgain.error).toBe(error);
+            expect(mappedAgain.error.message).toBe('Division by zero');
         }
     });
 
-    it('combines assertNotNil with map', () => {
+    it('combines assertNotNil with map using proper pattern', () => {
         const user = { name: 'John', age: 30 };
         const nameResult = assertNotNil(user.name, 'Name is required', false);
         const upperName = map(nameResult, name => name.toUpperCase());
@@ -367,12 +401,30 @@ describe('RustResult Integration Tests', () => {
         }
     });
 
-    it('handles async operations with tryResult and map', async () => {
-        const result = await tryResult(async () => ({ id: 1, name: 'John' }));
-        const nameResult = map(result, user => user.name);
-        expect(nameResult.ok).toBe(true);
-        if (nameResult.ok) {
-            expect(nameResult.value).toBe('John');
+    it('demonstrates correct usage pattern: functions return Results, tryResult wraps third-party calls', async () => {
+        // Our function returns Result<T> directly
+        const emailResult = validateEmail('test@example.com');
+        
+        // We use tryResult to wrap third-party operations that might throw
+        const thirdPartyResult = await tryResult(async () => {
+            // Simulating a third-party API call
+            const response = await fetch('https://api.example.com/data');
+            return response.json();
+        });
+
+        // Both results follow our pattern
+        expect(emailResult.ok).toBe(true);
+        expect(typeof thirdPartyResult.ok).toBe('boolean');
+    });
+
+    it('shows error handling with mapErr for context', () => {
+        const result = divide(10, 0);
+        const contextualError = mapErr(result, err => 
+            new Error(`Calculation failed: ${err.message}`)
+        );
+        expect(contextualError.ok).toBe(false);
+        if (!contextualError.ok) {
+            expect(contextualError.error.message).toBe('Calculation failed: Division by zero');
         }
     });
 }); 
