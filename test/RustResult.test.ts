@@ -13,7 +13,7 @@ import {
     type Result,
     type Ok,
     type Err
-} from '../src/tsRustResult';
+} from '../src/TsRustResult';
 
 describe('RustResult Core Functions', () => {
     describe('ok', () => {

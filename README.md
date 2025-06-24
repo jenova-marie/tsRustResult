@@ -1,4 +1,4 @@
-# tsRustResult ✨🦀💖
+# TsRustResult ✨🦀💖
 
 A lightweight, zero-dependency TypeScript library that brings Rust's `Result` type to your JavaScript/TypeScript projects. Handle errors gracefully with type safety and functional programming patterns. 🌸✨
 
@@ -12,7 +12,7 @@ yarn add ts-rust-result
 pnpm add ts-rust-result
 ```
 
-## Why tsRustResult Exists ✨
+## Why TsRustResult Exists ✨
 
 Error handling in JavaScript and TypeScript is fundamentally broken. Here's what we're dealing with: 💔
 
