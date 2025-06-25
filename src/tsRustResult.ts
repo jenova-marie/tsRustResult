@@ -4,12 +4,12 @@
  * Represents a successful result with a value.
  * @template T - The type of the successful value
  */
-export type Ok<T> = { ok: true; value: T };
+export type Ok<T> = { ok: true; value: T; _isResult_: true };
 
 /**
  * Represents an error result with an error object.
  */
-export type Err = { ok: false; error: Error };
+export type Err = { ok: false; error: Error, _isResult_: true };
 
 /**
  * Union type representing either a successful result (Ok) or an error result (Err).
@@ -34,7 +34,7 @@ export type Result<T> = Ok<T> | Err;
  * ```
  */
 export function ok<T>(value: T): Result<T> {
-    return { ok: true, value };
+    return { ok: true, value, _isResult_: true };
 }
 
 /**
@@ -104,7 +104,7 @@ export function isErr<T>(result: Result<T>): result is Err {
  * ```
  */
 export function err(error: Error): Result<never> {
-    return { ok: false, error };
+    return { ok: false, error, _isResult_: true };
 }
 
 /**
@@ -230,27 +230,6 @@ export function mapErr<T>(result: Result<T>, fn: (err: Error) => Error): Result<
 }
 
 /**
- * Type guard to check if a value is a Result.
- * 
- * @param value - The value to check
- * @returns True if the value is a Result, false otherwise
- * 
- * @example
- * ```ts
- * const result = ok("hello");
- * if (isResult(result)) {
- *   // TypeScript knows this is Result<any>
- *   if (isOk(result)) {
- *     console.log(result.value);
- *   }
- * }
- * ```
- */
-export function isResult(value: any): value is Result<any> {
-    return value && typeof value === 'object' && 'ok' in value;
-}
-
-/**
  * Wraps an async function in a try-catch block and returns a Result.
  * 
  * @template T - The return type of the async function
@@ -306,13 +285,11 @@ export async function tryResult<T>(
     shouldThrow: boolean = false
 ): Promise<Result<T>> {
     try {
-        const value = await fn();
-        // Check if the returned value is already a Result
-        if (isResult(value)) {
-            // If it's a Result, unwrap it and return the value
-            return ok(unwrap(value));
-        }
-        // Otherwise return the value as-is
+        const value: any = await fn();
+
+        // If it's a Result, unwrap it and return the value
+        if (value && value._isResult_) return ok(unwrap(value));
+
         return ok(value);
     } catch (e) {
         const error = e instanceof Error ? e : new Error(String(e));

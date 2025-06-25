@@ -1,6 +1,6 @@
 {
   "name": "ts-rust-result",
-  "version": "1.3.0",
+  "version": "1.3.3",
   "type": "module",
   "author": "Jenova Marie",
   "license": "GPL-3.0",
@@ -31,14 +31,14 @@
   },
   "scripts": {
     "build": "tsc",
-    "make": "pnpm clean && pnpm build && pnpm prepack && npm publish",
+    "make": "pnpm clean && pnpm do-docs && pnpm build && pnpm test && pnpm prepack && npm publish",
     "dev": "tsc --watch",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "lint": "eslint src --ext .ts",
     "clean": "rm -rf dist",
-    "docs": "typedoc --options typedoc.json",
+    "do-docs": "typedoc --options typedoc.json",
     "prepublishOnly": "pnpm run clean && pnpm run build && pnpm run test",
     "prepack": "pnpm run clean && pnpm run build",
     "postpack": "pnpm run clean"
