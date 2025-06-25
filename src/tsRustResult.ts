@@ -4,12 +4,12 @@
  * Represents a successful result with a value.
  * @template T - The type of the successful value
  */
-export type Ok<T> = { ok: true; value: T; _isResult_: true };
+export type Ok<T> = { ok: true; value: T; _isr: true };
 
 /**
  * Represents an error result with an error object.
  */
-export type Err = { ok: false; error: Error, _isResult_: true };
+export type Err = { ok: false; error: Error, _isr: true };
 
 /**
  * Union type representing either a successful result (Ok) or an error result (Err).
@@ -34,7 +34,7 @@ export type Result<T> = Ok<T> | Err;
  * ```
  */
 export function ok<T>(value: T): Result<T> {
-    return { ok: true, value, _isResult_: true };
+    return { ok: true, value, _isr: true };
 }
 
 /**
@@ -104,7 +104,7 @@ export function isErr<T>(result: Result<T>): result is Err {
  * ```
  */
 export function err(error: Error): Result<never> {
-    return { ok: false, error, _isResult_: true };
+    return { ok: false, error, _isr: true };
 }
 
 /**
@@ -288,7 +288,7 @@ export async function tryResult<T>(
         const value: any = await fn();
 
         // If it's a Result, unwrap it and return the value
-        if (value && value._isResult_) return ok(unwrap(value));
+        if (value && value._isr) return ok(unwrap(value));
 
         return ok(value);
     } catch (e) {
